@@ -5,7 +5,7 @@ import { createStore } from 'redux';
 import { StyleSheet, Text, View } from 'react-native';
 // App
 import AppReducer from './reducers'
-
+import AppViewContainer from './AppViewContainer'
 //
 const store = createStore(AppReducer);
 
@@ -17,19 +17,8 @@ export default class App extends Component {
   render() {
     return ( 
       <Provider store={store}>
-        <View style = {styles.container} >
-          <Text>Hello!! </Text>
-        </View>
+       <AppViewContainer></AppViewContainer>
       </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  }
-});
