@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from 'react'
+import { Actions } from 'react-native-router-flux'
+
 import {
   View, Text, StyleSheet, TextInput, Image,
   TouchableOpacity, Dimensions, Platform
@@ -22,8 +24,8 @@ class Login extends Component {
     Actions.browseWeb();
   }
 
-  login(){
-  
+  login() {
+
   }
 
   render() {
@@ -35,24 +37,20 @@ class Login extends Component {
         />
         <View style={styles.inputs}>
           <View style={styles.inputContainer}>
-            <TextInput
-              style={[styles.input, styles.whiteFont]}
+            <TextInput style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#F4F4E9"
               value={this.state.username}
-
               onChangeText={
                 (text) => {
-                  //console.log(" user name", text);
                   this.setState({ username: text })
                 }
               }
-            />
+             />
           </View>
           <View style={styles.inputContainer}>
-            <TextInput
+            <TextInput style={[styles.input, styles.whiteFont]}
               password={true}
-              style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#F4F4E9"
               value={this.state.password}
@@ -67,8 +65,6 @@ class Login extends Component {
           <TouchableOpacity style={styles.button} onPress={this.login.bind(this)}>
             <Text style={styles.label}> Login </Text>
           </TouchableOpacity>
-
-
           <View style={styles.webButtonContainer}>
             <TouchableOpacity onPress={this.browseWeb.bind(this)}>
               <Text style={styles.webButton}> Visit Us </Text>
@@ -86,11 +82,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     backgroundColor: 'transparent',
-    //flex: 1,
-    //backgroundColor: 'white',//'#2F9CB2',
     justifyContent: 'center',
     marginTop: 0
-    //alignItems: 'center'
   },
   bg: {
     position: 'absolute',
@@ -99,34 +92,38 @@ const styles = StyleSheet.create({
     width: windowSize.width,
     height: windowSize.height
   },
-
-
   inputs: {
     //	marginTop: 10,
     justifyContent: 'center',
     margin: 20,
     flex: 1
   },
-
-
-
-
   greyFont: {
     color: '#D8D8D8'
   },
   whiteFont: {
     color: '#FFF'
   },
-
-  logo: {
-    //width: 200,
-    height: 120,
-    marginTop: 0
+  inputContainer: {
+    padding: 10,
+    borderWidth: 1,
+    borderBottomColor: '#CCC',
+    borderColor: 'transparent',
+    marginBottom: 20
 
   },
-  chart: {
-    width: 200,
-    height: 200
+  webButtonContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    justifyContent: 'flex-end',
+    marginTop: 0
+  },
+  webButton: {
+    padding: 15,
+    color: '#FF9800',
+    marginTop: 20,
+    textDecorationLine: ('underline')
   },
   button: {
     padding: 15,
@@ -137,7 +134,6 @@ const styles = StyleSheet.create({
   label: {
     color: '#F4F4E9',
     textAlign: 'center'
-
   },
   msg: {
     color: '#FF9800',
