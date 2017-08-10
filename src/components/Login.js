@@ -60,7 +60,9 @@ class Login extends Component {
               onChangeText={this.onPasswordChange.bind(this)}/>
           </View>
           <Text style={styles.msg}>{this.props.error}</Text>
-           {this.renderButton()}
+          <View>
+            {this.renderButton()}
+          </View>
           <View style={styles.webButtonContainer}>
             <TouchableOpacity onPress={()=>{Linking.openURL(Config.WEBSITE_URL)}}>
               <Text style={styles.webButton}> Visit Us </Text>

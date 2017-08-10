@@ -27,23 +27,25 @@ export const loginUser = ({ email, password }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_USER });
     const url = Config.API_URL + "checkeruser";
-    const params = { username:email, password };
-
-    axios.post(url, params)
-    .then((response)=>loginUserSuccess(dispatch, response))
+    const data = { username: email, password };
+  
+    axios.post(url, data)
+    .then((response)=>{
+      if(response.data.exist)
+        loginUserSuccess(dispatch, response)
+      else
+        loginUserFail(dispatch, "User doest not exist.")
+    })
     .catch((err) => loginUserFail(dispatch, err));
-  };
+  }
 }
 
 const loginUserFail = (dispatch, err) => {
-  console.log(err);
   dispatch({ type: LOGIN_USER_FAIL });
 }
 
 const loginUserSuccess = (dispatch, user) => {
-  debugger;
   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
-
   Actions.progressView();
 }
 
