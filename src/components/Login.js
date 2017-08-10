@@ -53,7 +53,7 @@ class Login extends Component {
           </View>
           <View style={styles.inputContainer}>
             <TextInput style={[styles.input, styles.whiteFont]}
-              password={true}
+              secureTextEntry
               placeholder="Password"
               placeholderTextColor="#F4F4E9"
               value={this.props.password}

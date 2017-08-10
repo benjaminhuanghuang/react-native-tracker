@@ -4,8 +4,8 @@ import {
 } from '../actions/types'
 
 const INITIAL_STATE = {
-  email: '',
-  password: '',
+  email: '1@1.com',
+  password: 'abc123',
   user: null,
   error: '',
   loading: false
