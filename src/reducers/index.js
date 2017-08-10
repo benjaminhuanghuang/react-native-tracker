@@ -1,15 +1,11 @@
-import { DEMO_ACTION } from '../actionTypes';
-
-// return a new state
-const AppReducer = (state = [], action) => {
-  switch (action.type) {
-    case DEMO_ACTION:
-      console.log(`Action: ${action}, State: ${state}`);
-      return state;
-
-    default:
-      return state;
-  }
-};
-
-export default AppReducer;
+import { combineReducers } from 'redux';
+//
+import AuthReducer from './AuthReducer';
+/*
+  Reducers in application:
+    1. libraries
+    2. selection
+*/
+export default combineReducers({
+  auth: AuthReducer     // state : reducer
+});

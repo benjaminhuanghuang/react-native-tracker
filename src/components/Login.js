@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react'
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux'
 
 import {
@@ -8,46 +9,31 @@ import {
 //
 import Config from "../config";
 import { Spinner } from './common'; 
-
-var windowSize = Dimensions.get('window');
-
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 
 class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-    error: '',
-    loading: false,
-  };
-
-  login() {
-    const { email, password } = this.state;
-    this.setState({ error: '', loading: true });
-    //
-  }
-
-  onLoginSuccess() {
-    this.setState({
-      email: '',
-      password: '',
-      loading: false,
-      error: ''
-    });
-  }
-
-  onLoginFail() {
-    this.setState({ loading: false, error: 'Authentication Failed.' });
-  }
-
   renderButton() {
-    if (this.state.loading) {
+    if (this.props.loading) {
       return <Spinner size="small" />;
     }
     return (
-      <TouchableOpacity style={styles.button} onPress={this.login.bind(this)}>
+      <TouchableOpacity style={styles.button} onPress={this.onButtonPress.bind(this)}>
         <Text style={styles.label}> Login </Text>
       </TouchableOpacity>
     );
+  }
+
+  onEmailChange(text) {
+    this.props.emailChanged(text);
+  }
+
+  onPasswordChange(text) {
+    this.props.passwordChanged(text);
+  }
+
+  onButtonPress() {
+    const { email, password } = this.props;
+    this.props.loginUser({ email, password });
   }
 
   render() {
@@ -60,30 +46,20 @@ class Login extends Component {
         <View style={styles.inputs}>
           <View style={styles.inputContainer}>
             <TextInput style={[styles.input, styles.whiteFont]}
-              placeholder="Username"
+              placeholder="user@mail"
               placeholderTextColor="#F4F4E9"
-              value={this.state.username}
-              onChangeText={
-                (text) => {
-                  this.setState({ username: text })
-                }
-              }
-             />
+              value={this.props.email}
+              onChangeText={this.onEmailChange.bind(this)}/>
           </View>
           <View style={styles.inputContainer}>
             <TextInput style={[styles.input, styles.whiteFont]}
               password={true}
               placeholder="Password"
               placeholderTextColor="#F4F4E9"
-              value={this.state.password}
-
-              onChangeText={(text) => {
-                this.setState({ password: text })
-              }
-              }
-            />
+              value={this.props.password}
+              onChangeText={this.onPasswordChange.bind(this)}/>
           </View>
-          <Text style={styles.msg}>{this.state.msg}</Text>
+          <Text style={styles.msg}>{this.props.error}</Text>
            {this.renderButton()}
           <View style={styles.webButtonContainer}>
             <TouchableOpacity onPress={()=>{Linking.openURL(Config.WEBSITE_URL)}}>
@@ -95,7 +71,6 @@ class Login extends Component {
     )
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -109,8 +84,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     top: 0,
-    width: windowSize.width,
-    height: windowSize.height
+    flex: 1,
   },
   inputs: {
     //	marginTop: 10,
@@ -162,4 +136,15 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password,
+    error: state.auth.error,
+    loading: state.auth.loading
+  }
+}
+
+export default connect(mapStateToProps, {
+  emailChanged, passwordChanged, loginUser
+})(Login);

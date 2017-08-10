@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import { Scene, Reducer, Router, Switch, Modal, Actions } from 'react-native-router-flux';
-
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-// UI
-import { StyleSheet, Text, View } from 'react-native';
-// App
-import AppReducer from './reducers'
-import Login from './components/Login';
-import HomePage from './components/HomePage';
-
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
 //
-const store = createStore(AppReducer);
+import { Header, Button, Spinner, CardSection } from './components/common';
+import Router from './Router';
+import reducers from './reducers'
 
 export default class App extends Component {
   constructor(props) {
@@ -19,14 +13,10 @@ export default class App extends Component {
   }
 
   render() {
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
-        <Router>
-          <Scene key="root" >
-            <Scene key="login" component={Login} hideTabBar hideNavBar title="Login" />
-            <Scene key="browseWeb" component={HomePage} hideTabBar hideNavBar={false} title="Afficient Academy" />
-          </Scene>
-        </Router>
+        <Router/>
       </Provider>
     );
   }
