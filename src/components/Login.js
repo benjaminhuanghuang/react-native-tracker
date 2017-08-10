@@ -3,9 +3,10 @@ import { Actions } from 'react-native-router-flux'
 
 import {
   View, Text, StyleSheet, TextInput, Image,
-  TouchableOpacity, Dimensions, Platform
+  TouchableOpacity, Dimensions, Platform, Linking
 } from 'react-native'
 
+import Config from "../config";
 
 var windowSize = Dimensions.get('window');
 
@@ -66,7 +67,7 @@ class Login extends Component {
             <Text style={styles.label}> Login </Text>
           </TouchableOpacity>
           <View style={styles.webButtonContainer}>
-            <TouchableOpacity onPress={this.browseWeb.bind(this)}>
+            <TouchableOpacity onPress={()=>{Linking.openURL(Config.WEBSITE_URL)}}>
               <Text style={styles.webButton}> Visit Us </Text>
             </TouchableOpacity>
           </View>
