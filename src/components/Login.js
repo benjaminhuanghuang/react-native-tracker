@@ -5,28 +5,49 @@ import {
   View, Text, StyleSheet, TextInput, Image,
   TouchableOpacity, Dimensions, Platform, Linking
 } from 'react-native'
-
+//
 import Config from "../config";
+import { Spinner } from './common'; 
 
 var windowSize = Dimensions.get('window');
 
 
 class Login extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      username: "",
-      password: "",
-      msg: ""//"Please Register at Afficient Academy Learning Center."
-    }
-  }
-
-  browseWeb() {
-    Actions.browseWeb();
-  }
+  state = {
+    email: '',
+    password: '',
+    error: '',
+    loading: false,
+  };
 
   login() {
+    const { email, password } = this.state;
+    this.setState({ error: '', loading: true });
+    //
+  }
 
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password: '',
+      loading: false,
+      error: ''
+    });
+  }
+
+  onLoginFail() {
+    this.setState({ loading: false, error: 'Authentication Failed.' });
+  }
+
+  renderButton() {
+    if (this.state.loading) {
+      return <Spinner size="small" />;
+    }
+    return (
+      <TouchableOpacity style={styles.button} onPress={this.login.bind(this)}>
+        <Text style={styles.label}> Login </Text>
+      </TouchableOpacity>
+    );
   }
 
   render() {
@@ -63,9 +84,7 @@ class Login extends Component {
             />
           </View>
           <Text style={styles.msg}>{this.state.msg}</Text>
-          <TouchableOpacity style={styles.button} onPress={this.login.bind(this)}>
-            <Text style={styles.label}> Login </Text>
-          </TouchableOpacity>
+           {this.renderButton()}
           <View style={styles.webButtonContainer}>
             <TouchableOpacity onPress={()=>{Linking.openURL(Config.WEBSITE_URL)}}>
               <Text style={styles.webButton}> Visit Us </Text>
