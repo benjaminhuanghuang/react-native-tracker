@@ -32,7 +32,7 @@ export const loginUser = ({ email, password }) => {
     axios.post(url, data)
     .then((response)=>{
       if(response.data.exist)
-        loginUserSuccess(dispatch, response)
+        loginUserSuccess(dispatch, response.data)
       else
         loginUserFail(dispatch, "User doest not exist.")
     })
@@ -44,8 +44,8 @@ const loginUserFail = (dispatch, err) => {
   dispatch({ type: LOGIN_USER_FAIL });
 }
 
-const loginUserSuccess = (dispatch, user) => {
-  dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
+const loginUserSuccess = (dispatch, data) => {
+  dispatch({ type: LOGIN_USER_SUCCESS, payload: data });
   Actions.progressView();
 }
 
